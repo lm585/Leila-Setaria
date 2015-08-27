@@ -6,6 +6,19 @@ To remind you, below was the criteria you used in your last script for SNP detec
 •	For the target sample, I used  85% for homozygousity, say T; The same allele, T, in the combined control < 5%.
 Only include substitutions with : G (WT) -> A (target sample) substitution or C->T substitution. In addition,  the control has  no mutation with respect to the reference, the target sample has mutation
 
+The attached is the indel result for 745 vs the other 7 EMS samples.
+
+•	80% was used as cutoff, meaning at least 80% of reads in 745 have indels and at least 80% of the control have no indels (or vice versa)
+•	As usual, 1 read was used as cutoff. 
+
+example	Meaning
+.+2GG	The read has 2-bp insertion
+*	The read has a deletion
+^F.	The mapped base is at the beginning of the read (^F indicates  the beginning)
+,$	The mapped base is at the end of the read ($ indicates  the end)
+
+
+
 Could you run 552 and 745 once with the last script you wrote for SNP detection  and once with the last one you wrote for indel detection. 
 
 
