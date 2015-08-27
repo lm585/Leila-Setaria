@@ -7,3 +7,17 @@ To remind you, below was the criteria you used in your last script for SNP detec
 Only include substitutions with : G (WT) -> A (target sample) substitution or C->T substitution. In addition,  the control has  no mutation with respect to the reference, the target sample has mutation
 
 Could you run 552 and 745 once with the last script you wrote for SNP detection  and once with the last one you wrote for indel detection. 
+
+annotateSNP-in-gff.CD.2piles    WT.pileup_383.pileup.snp    Sitalica_164_v2.1.gene.gff3.modify   WT.pileup_383.pileup.snp.anot      1000000
+ awk '$1 != "D" && $1 != "I"' WT.pileup_383.pileup.snp.anot > temp-M-only
+awk '$2 ~ /[Gg]->[Aa]/' temp-M-only > temp-M-g-a
+awk '$2 ~ /[cC]->[tT]/' temp-M-only > temp-M-c-t
+cat temp-M-g-a temp-M-c-t | sort | uniq -d | wc
+cat temp-M-g-a temp-M-c-t > temp-M-gc-at
+awk '$2 ~ /[Gg]->[Aa]/ && $5 != "A"' temp-M-gc-at > temp-1
+awk '$2 ~ /[cC]->[tT]/ && $5 != "T"' temp-M-gc-at > temp-2
+cat temp-1 temp-2 > temp-M-gc-at-wtSame
+cat temp-M-gc-at-wtSame | sort | uniq -d |wc
+
+
+
