@@ -10,6 +10,7 @@ Could you run 552 and 745 once with the last script you wrote for SNP detection 
 
 
 
+# 561 vs WT
 # 100-bp read, single end mapping, -n 4 -o 1 -e 2
 samtools merge -f 561.se.sort.bam n4.o1.e2.561_GTGAAA_R1.uniq.nonRed.sorted.bam  n4.o1.e2.561_GTGAAA_R2.uniq.nonRed.sorted.bam
 nohup samtools mpileup -Q 0  -d 1000000 -f  Sitalica_164_v2.fa  561.se.sort.bam > 561.pileup &
@@ -25,4 +26,24 @@ awk '$2 ~ /[cC]->[tT]/ && $5 != "T"' temp-M-gc-at > temp-2
 cat temp-1 temp-2 > temp-M-gc-at-wtSame
 cat temp-M-gc-at-wtSame | sort | uniq -d |wc
 
+
+# 745 vs the others
+t=`ls *bam | grep -v 745 | grep -v pair`
+echo $t
+nohup samtools merge -f other.se.sort.bam  $t &
+
+\_ samtools merge -f other.se.sort.bam 383.se.sort.bam 407.se.sort.bam 561.se.sort.bam 587.se.uniq.nonRed.sorted.bam 771.se.sort.bam 79.se.sort.bam WT.se.uniq.nonRed.sorted.bam
+
+nohup samtools mpileup -Q 0  -d 1000000 -f  Sitalica_164_v2.fa   other.se.sort.bam > other.pileup &
+rm other.se.sort.bam
+nohup samtools mpileup -Q 0  -d 1000000 -f  Sitalica_164_v2.fa   745.se.sort.bam > 745.pileup &
+nohup combine2PileFiles   other.pileup  745.pileup  0.95 0.9  Sitalica-chr-order  3 &
+annotateSNP-in-gff.CD.2piles.prom   other.pileup_745.pileup.snp    Sitalica_164_v2.1.gene.gff3.modify    other.pileup_745.pileup.snp.anot 1000000 1000
+
+
+# nohup combine2PileFiles.diffCut  other.pileup   745-read1-samp0d85.pileup  0.95 0.9  Sitalica-chr-order  1 0.85 &
+sh -x  script-filt-snp
+
+nohup combine2PileFiles.diffPerc  other.pileup   745-read1-samp0d85.pileup   0.05     0.9     Sitalica-chr-order     1          0.85  & 
+### 1 read cutoff;   sample 85% for homozygousity, say T; The same allele, T, in the control < 5%; 90% for homozygous indel between control and sample; 
 
