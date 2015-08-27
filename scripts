@@ -6,3 +6,4 @@ To remind you, below was the criteria you used in your last script for SNP detec
 •	For the target sample, I used  85% for homozygousity, say T; The same allele, T, in the combined control < 5%.
 Only include substitutions with : G (WT) -> A (target sample) substitution or C->T substitution. In addition,  the control has  no mutation with respect to the reference, the target sample has mutation
 
+Could you run 552 and 745 once with the last script you wrote for SNP detection  and once with the last one you wrote for indel detection. 
