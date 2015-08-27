@@ -1,0 +1,8 @@
+To remind you, below was the criteria you used in your last script for SNP detection 
+
+•	1 WT + 7 EMS samples
+•	Select  1 EMS sample as a target. Combine the WT and the other 6 EMS samples as a control. Compare the control with the target sample, 
+•	1 read cutoff. 
+•	For the target sample, I used  85% for homozygousity, say T; The same allele, T, in the combined control < 5%.
+Only include substitutions with : G (WT) -> A (target sample) substitution or C->T substitution. In addition,  the control has  no mutation with respect to the reference, the target sample has mutation
+
