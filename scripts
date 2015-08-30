@@ -59,7 +59,9 @@ annotateSNP-in-gff.CD.2piles.prom   other.pileup_745.pileup.snp    Sitalica_164_
 sh -x  script-filt-snp
 
 nohup combine2PileFiles.diffPerc  other.pileup   745-read1-samp0d85.pileup   0.05     0.9     Sitalica-chr-order     1          0.85  & 
-### 1 read cutoff;   sample 85% for homozygousity, say T; The same allele, T, in the control < 5%; 90% for homozygous indel between control and sample; 
+nohup combine2PileFiles.diffPerc other.pileup   552.pileup                  0.05    0.8   Sitalica-chr-order     1          0.85  &
+
+### 1 read cutoff;   sample 85% for homozygousity, say T; The same allele, T, in the control < 5%; 80% for homozygous indel between control and sample; 
 
 awk '$1 != "M"' other.pileup_745.pileup.snp > other.pileup_745.pileup.snp.indel.only
 
