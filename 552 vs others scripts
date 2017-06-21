@@ -1,0 +1,23 @@
+ $ cat   out-syspipeline.2.pl-fq-list-552 | grep bp
+SV552_GCCAAT_R1.fastq   100(bp) -n 4 -o 1 -e 2  116216530       98787804        85.0032297470936%       81155026        69.830880340344%        63908993        54.9913106164846%
+SV552_GCCAAT_R2.fastq   100(bp) -n 4 -o 1 -e 2  116216530       98165555        84.4678076345938%       80742861        69.476227693255%        63603341        54.7283084428695%
+
+ 
+ samtools merge -f 552.se.sort.bam  n4.o1.e2.SV552_GCCAAT_R1.uniq.nonRed.sorted.bam  n4.o1.e2.SV552_GCCAAT_R2.uniq.nonRed.sorted.bam
+
+samtools merge -f other.se.sort.bam 383.se.sort.bam 407.se.sort.bam 561.se.sort.bam 587.se.sort.bam 745.se.sort.bam 771.se.sort.bam 79.se.sort.bam WT.se.sort.bam
+
+ nohup samtools mpileup -Q 0  -d 1000000 -f  Sitalica_164_v2.fa    other.se.sort.bam > other.pileup &
+
+ nohup samtools mpileup -Q 0  -d 1000000 -f  Sitalica_164_v2.fa    552.se.sort.bam  > 552.pileup &
+
+nohup combine2PileFiles.diffPerc other.pileup   552.pileup  0.05    0.8   Sitalica-chr-order     1          0.85  &
+
+annotateSNP-in-gff.CD.2piles.prom    other.pileup_552.pileup.snp       Sitalica_164_v2.1.gene.gff3.modify      other.pileup_552.pileup.snp.anot 1000000 1000
+
+sh -x  script-filt-snp
+
+awk '$1 != "M"'  other.pileup_552.pileup.snp.anot > other.pileup_552.pileup.snp.anot.indel.only
+
+
+
