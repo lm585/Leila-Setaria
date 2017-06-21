@@ -1,0 +1,26 @@
+SV745_CTTGTA_R1.fastq   100(bp) -n 4 -o 1 -e 2  99098604        84401533        85.1692451691852%       69025071        69.652919631441%        54804650        55.3031503854484%
+SV745_CTTGTA_R2.fastq   100(bp) -n 4 -o 1 -e 2  99098604        83759629        84.5215024421535%       68550448        69.1739794841106%       54470041        54.9654977985361%
+
+
+samtools merge -f 745.se.sort.2ndBatch.bam     n4.o1.e2.SV745_CTTGTA_R1.uniq.nonRed.sorted.bam        n4.o1.e2.SV745_CTTGTA_R2.uniq.nonRed.sorted.bam
+
+samtools merge -f other.se.sort.bam 383.se.sort.bam 407.se.sort.bam 552.se.sort.bam 561.se.sort.bam 587.se.sort.bam 771.se.sort.bam 79.se.sort.bam WT.se.sort.bam
+
+nohup samtools mpileup -Q 0  -d 1000000 -f  Sitalica_164_v2.fa    other.se.sort.bam > other.pileup &
+
+nohup samtools mpileup -Q 0  -d 1000000 -f  Sitalica_164_v2.fa   745.se.sort.2ndBatch.bam  >  745.pileup &
+
+mv -i 745.pileup  745-2ndBatch.pileup
+
+nohup combine2PileFiles.diffPerc  other.pileup   745-2ndBatch.pileup   0.05    0.8   Sitalica-chr-order     1          0.85  &
+
+annotateSNP-in-gff.CD.2piles.prom   other.pileup_745-2ndBatch.pileup.snp     Sitalica_164_v2.1.gene.gff3.modify    other.pileup_745-2ndBatch.pileup.snp.anot 1000000 1000
+
+sh -x  script-filt-snp
+
+awk '$1 != "M"'     other.pileup_745-2ndBatch.pileup.snp.anot >   other.pileup_745-2ndBatch.pileup.snp.anot.indel.only
+
+
+
+
+
