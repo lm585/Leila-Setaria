@@ -20,7 +20,7 @@ sh -x  script-filt-snp
 
 awk '$1 != "M"'     other.pileup_745-2ndBatch.pileup.snp.anot >   other.pileup_745-2ndBatch.pileup.snp.anot.indel.only
 
-
+See "AC2T-other8-vs-samp-745-2ndBatch.pileup.snp.indel.anot.xlsx" in Google Driver
 
 
 
