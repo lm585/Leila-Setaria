@@ -1,0 +1,21 @@
+#
+
+ref="GCF_000005845.2_ASM584v2_genomic.fna"
+
+for f in `echo sample-1_S1_L001  sample-2_S6_L001`
+do
+   ls -lh "$f"_R1_001.fastq "$f"_R2_001.fastq
+   bwa-0.7.15/bwa mem -t 8 -T 0  $ref  "$f"_R1_001.fastq "$f"_R2_001.fastq > $f.sam
+   samtools view -u -S -o $f.bam $f.sam
+   samtools sort  $f.bam  $f.sorted
+   samtools mpileup -Q 0 -q 20 -d 1000000 -f   $ref   $f.sorted.bam > $f.pileup
+   ###genotyping
+   ### reSeqPrintSample.indel.fast.strAssign.C is an in-house developed C++ program I wrote for my 
+   ### research projects
+   ### reSeqPrintSample.indel.fast.strAssign  $ref $f.1colum $f.pileup $f  2 2 0.3
+   rm $f.bam
+done
+
+### combine2PileFiles.diffPerc.2-18-2018.C is an C++ program I developed for my project
+./combine2PileFiles.diffPerc.2-18-2018     sample-1_S1_L001.pileup sample-2_S6_L001.pileup  0.65   0.8      GCF_000005845.2_ASM584v2_genomic.chromosome-order   6 0.9
+
